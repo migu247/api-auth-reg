@@ -200,8 +200,8 @@ app.post('/api/reg', auth,(req, res, next) => {
   
     db.user.findOne({ email: elemento.email }, (err, usuario)=>{
       if(err) return next(err);
-      if(!usuario ){
-          response.status(400).json({});
+      if(usuario ){
+          res.status(400).json({});
       }else{
           PassService.encriptaPassword(elemento.pass)
           .then(passEnc => {
