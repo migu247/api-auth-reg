@@ -11,10 +11,12 @@ const OPTIONS_HTTPS = {
 
 
 const TokenService = require('./services/token.service');
+const PassService = require('./services/pass.service');
 const moment = require('moment');
 const express = require('express');
 const logger = require('morgan');
 const mongojs = require('mongojs');
+const { encriptaPassword, comparaPassword } = require('./services/pass.service');
 //const cors = require('cors'); 
 
 var db = mongojs('users');
@@ -74,7 +76,7 @@ app.get('/api/auth', (req, res, next) => {
     if (err) return next(err); 
     const userRed = coleccion.map(user =>{return{
           nombre: user.nombre,
-          pass: user.pass
+          email: user.email
     }});
     res.json(userRed); 
   }); 
@@ -122,8 +124,121 @@ app.delete('/api/user/:id', auth,(req, res, next) => {
     res.json(resultado); 
   }); 
 }); 
+
+app.post('/api/auth', auth,(req, res, next) => { 
+  const elemento = req.body; 
+  console.log(elemento);
+
+
+  if (!elemento.email) { 
+    res.status(400).json ({ 
+    error: 'Bad data', 
+    description: 'Se precisa al menos un campo <emial>' 
+    }); 
+  } else if(!elemento.pass) { 
+    res.status(400).json ({ 
+    error: 'Bad data', 
+    description: 'Se precisa al menos un campo <pass>' 
+    }); 
+
+  }else { 
+  
+    db.user.findOne({ email: elemento.email }, (err, usuario)=>{
+      if(err) return next(err);
+      if(!usuario ){
+          response.status(400).json({});
+      }else{
+          PassService.comparaPassword(elemento.pass, usuario.pass)
+          .then(val => {
+              if(val){
+                const ctoken = TokenService.crearToken(usuario);
+                  res.json({
+                      result: 'OK',
+                      user: elemento,
+                      token: ctoken
+                  });
+              }else{
+                res.json({
+                  result: 'NOT OK'
+              });
+              }
+
+                  
+                
+          });
+    
+      }
+  })
+  
+  } 
+}); 
+
+
+
+app.post('/api/reg', auth,(req, res, next) => { 
+  const elemento = req.body; 
+  console.log(elemento);
+
+  if (!elemento.nombre) { 
+    res.status(400).json ({ 
+    error: 'Bad data', 
+    description: 'Se precisa al menos un campo <nombre>' 
+    }); 
+  } else if(!elemento.email) { 
+    res.status(400).json ({ 
+    error: 'Bad data', 
+    description: 'Se precisa al menos un campo <email>' 
+    }); 
+
+  }else if(!elemento.pass) { 
+    res.status(400).json ({ 
+    error: 'Bad data', 
+    description: 'Se precisa al menos un campo <pass>' 
+    }); 
+
+  } else { 
+  
+    db.user.findOne({ email: elemento.email }, (err, usuario)=>{
+      if(err) return next(err);
+      if(!usuario ){
+          response.status(400).json({});
+      }else{
+          PassService.encriptaPassword(elemento.pass)
+          .then(passEnc => {
+             
+             const usuario = {
+                  email: elemento.email,
+                  name: elemento.nombre,
+                  pass: passEnc,
+                  signUpDate: moment().unix(),
+                  lastLogin: moment().unix()
+                  
+              };
+              db.user.save(usuario, (err, coleccionGuardada) => { 
+                  if(err) return next(err);
+                  const ctoken = TokenService.crearToken(usuario);
+                  res.json({
+                      result: 'OK',
+                      user: coleccionGuardada,
+                      token: ctoken
+                  });
+              }); 
+          });
+
+          
+      }
+  })
+  
+  } 
+}); 
  
  
 https.createServer(OPTIONS_HTTPS, app).listen(port, () => { 
   console.log(`SEC WS API REST ejecutándose en http://localhost:${port}/api/user/:id`); 
 });
+
+function signIn(email, pass){
+
+  var com = PassService.comparaPassword(pass, contr);
+
+}

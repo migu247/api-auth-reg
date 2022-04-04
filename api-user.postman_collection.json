@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "2c09604b-9d09-4c78-b932-b342c122fd89",
+		"name": "api-user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:4000/api/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": "Obtenemos todos los usuarios registrados en el sistema."
+			},
+			"response": []
+		},
+		{
+			"name": "/api/user/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:4000/api/user/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user",
+						""
+					]
+				},
+				"description": "Obtenemos el usuario indicado en {id}. "
+			},
+			"response": []
+		},
+		{
+			"name": "/api/user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "password1234",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"antonio2\",\n    \"email\": \"antonio2@gmail.com\",\n    \"pass\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:4000/api/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": "Registramos un nuevo usuario con toda su información. "
+			},
+			"response": []
+		},
+		{
+			"name": "/api/user/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "password1234",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\" : \"mario\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:4000/api/user/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user",
+						""
+					]
+				},
+				"description": "Modificamos el usuario {id}. "
+			},
+			"response": []
+		},
+		{
+			"name": "/api/user/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "password1234",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:4000/api/user/6241fae4650e52164d99799a",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user",
+						"6241fae4650e52164d99799a"
+					]
+				},
+				"description": "Eliminamos el usuario {id}."
+			},
+			"response": []
+		},
+		{
+			"name": "/api/auth",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:4000/api/auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth"
+					]
+				},
+				"description": "Obtenemos todos los usuarios registrados en el sistema. Mostramos versión \nreducida de GET /api/user. "
+			},
+			"response": []
+		},
+		{
+			"name": "/api/auth/me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				},
+				"description": "Obtenemos el usuario a partir de un token válido."
+			},
+			"response": []
+		},
+		{
+			"name": "/api/auth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "password1234",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jose@gmail.com\",\n    \"pass\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:4000/api/auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth"
+					]
+				},
+				"description": "Realiza una identificación o login (signIn) y devuelve un token válido. "
+			},
+			"response": []
+		},
+		{
+			"name": "/api/reg",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "password1234",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"jose\",\n    \"email\": \"jose@gmail.com\",\n    \"pass\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:4000/api/reg",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"reg"
+					]
+				},
+				"description": "Realiza un registro mínimo (signUp) de un usuario y devuelve un token válido. "
+			},
+			"response": []
+		}
+	]
+}
